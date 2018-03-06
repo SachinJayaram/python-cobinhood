@@ -4,7 +4,7 @@
 """
 
 import unittest
-from cobinhood import Cobinhood
+from cobinhood.cobinhood import Cobinhood
 
 class TestCobinhood(unittest.TestCase):
     """!
