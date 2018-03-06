@@ -14,6 +14,13 @@ if __name__ == '__main__':
     print(result)
 ```
 
+## Testing:
+
+To run the integration tests execute the following command:
+```
+"python -m unittest discover"
+```
+
 ## Error Codes:
 
 ```
