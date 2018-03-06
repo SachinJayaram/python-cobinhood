@@ -3,4 +3,3 @@ python:
 - '2.7'
 script:
 - python -m unittest cobinhood.cobinhood.tests.test_cobinhood
-
