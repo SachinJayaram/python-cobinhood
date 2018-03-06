@@ -12,7 +12,7 @@ if __name__ == '__main__':
     print(result)
 ```
 
-##Error Codes:
+## Error Codes:
 
 ```
 4000: undefined_error. Unknown error.
