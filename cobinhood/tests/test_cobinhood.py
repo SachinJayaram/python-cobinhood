@@ -4,7 +4,7 @@
 """
 
 import unittest
-from cobinhood.cobinhood import Cobinhood
+import cobinhood
 
 class TestCobinhood(unittest.TestCase):
     """!
@@ -14,7 +14,7 @@ class TestCobinhood(unittest.TestCase):
         """!
         Initial setUp function for testcases.
         """
-        self.cobinhood = Cobinhood()
+        self.cobinhood = cobinhood.Cobinhood()
         self.response = None
 
     def api_call_success_asserts(self):
