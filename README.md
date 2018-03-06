@@ -1,5 +1,5 @@
 # python-cobinhood
-[![Build Status](https://travis-ci.org/SachinJayaram/python-cobinhood.svg?branch=master)](https://github.com/SachinJayaram/python-cobinhood)
+[![Build Status](https://travis-ci.org/SachinJayaram/python-cobinhood.svg?branch=master)](https://travis-ci.org/SachinJayaram/python-cobinhood)
 
 Python wrapper for Cobinhood. Use at your own risk. I'm not responsible for any issues.
 
