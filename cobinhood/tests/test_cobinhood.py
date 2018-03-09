@@ -5,6 +5,10 @@
 
 from __future__ import print_function
 from cobinhood import Cobinhood
+<<<<<<< HEAD
+=======
+import os
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
 import json
 import unittest
 
@@ -13,6 +17,7 @@ API_TOKEN_FILE = "./cobinhood/tests/api_token.json"
 try:
     open(API_TOKEN_FILE).close()
     AUTH = True
+<<<<<<< HEAD
 except IOError:
     AUTH = False
 
@@ -26,6 +31,20 @@ def api_call_response(unit_test, response, is_success=True):
     unit_test.assertEqual(response.get("success"), is_success)
 
 
+=======
+except Exception:
+    AUTH = False
+
+
+def api_call_response(unittest, response):
+    """!
+    api call response function to check for success asserts.
+    """
+    unittest.assertTrue(response.get("result") is not None)
+    unittest.assertEqual(response.get("success"), True)
+
+
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
 class TestCobinhoodPublic(unittest.TestCase):
     """!
     Unit tests for Cobinhood public api functions.
@@ -112,6 +131,7 @@ class TestCobinhoodPrivate(unittest.TestCase):
         "api_key": "abcde123454321"
     }
     """
+<<<<<<< HEAD
 
     def setUp(self):
         """!
@@ -187,11 +207,40 @@ class TestCobinhoodPrivate(unittest.TestCase):
         response = self.cobinhood.get_wallet_balances()
         api_call_response(self, response)
 
-    def test_get_ledger_entries(self):
+=======
+
+    def setUp(self):
         """!
-        Test the get ledger entries function.
+        Initial setUp function for testcases.
         """
-        response = self.cobinhood.get_ledger_entries(currency="COB")
+        self.api_token_file = API_TOKEN_FILE
+        self.api_key = ""
+        with open(self.api_token_file) as fin:
+            content = json.load(fin)
+            self.api_key = content.get("api_key", "")
+        self.cobinhood = Cobinhood(self.api_key)
+        self.order_id = ""
+        self.trade_id = ""
+        response = None
+
+    def test_get_order_history(self):
+        """!
+        Test the fet order history function.
+        """
+        response = self.cobinhood.get_order_history()
+        orders = response["result"]["orders"][0]
+        if orders:
+            self.order_id = orders.get("id", "")
+        api_call_response(self, response)
+
+    def test_get_trade_history(self):
+        """!
+        Test the get trade history function.
+        """
+        response = self.cobinhood.get_trade_history()
+        trades = response["result"]["trades"][0]
+        if trades:
+            self.trade_id = trades.get("id", "")
         api_call_response(self, response)
 
     def test_get_deposit_addresses(self):
@@ -208,10 +257,74 @@ class TestCobinhoodPrivate(unittest.TestCase):
         response = self.cobinhood.get_withdrawal_addresses(currency="COB")
         api_call_response(self, response)
 
+    #@unittest.skipIf(self.order_id, "Order id unavailable")
+    def test_get_order(self):
+        """!
+        Test the get order function.
+        """
+        #response = self.cobinhood.get_order(self.order_id)
+        #api_call_response(self, response)
+
+    #@unittest.skipIf(self.order_id, "Order id unavailable")
+    def test_get_single_order(self):
+        """!
+        Test the get trades of an order function.
+        """
+        #response = self.cobinhood.get_trades_order(self.order_id)
+        #api_call_response(self, response)
+
+    def test_get_all_orders(self):
+        """!
+        Test the get all current orders function.
+        """
+        response = self.cobinhood.get_all_orders()
+        api_call_response(self, response)
+
+    #@unittest.skipIf(self.trade_id, "Trade id unavailable")
+    def test_get_trade(self):
+        """!
+        Test the get trade function.
+        """
+        #response = self.cobinhood.get_trade(self.trade_id)
+        #api_call_response(self, response)
+    
+    def test_get_wallet_balances(self):
+        """!
+        Test the get wallet balances function.
+        """
+        response = self.cobinhood.get_wallet_balances()
+        api_call_response(self, response)
+
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
+    def test_get_ledger_entries(self):
+        """!
+        Test the get ledger entries function.
+        """
+        response = self.cobinhood.get_ledger_entries(currency="COB")
+        api_call_response(self, response)
+
+<<<<<<< HEAD
+    def test_get_deposit_addresses(self):
+        """!
+        Test the get deposit addresses function.
+        """
+        response = self.cobinhood.get_deposit_addresses(currency="COB")
+        api_call_response(self, response)
+
+    def test_get_withdrawal_addresses(self):
+        """!
+        Test the get withdrawal addresses function.
+        """
+        response = self.cobinhood.get_withdrawal_addresses(currency="COB")
+        api_call_response(self, response)
+
+=======
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
     def test_get_withdrawal(self):
         """!
         Test the get withdrawal function.
         """
+<<<<<<< HEAD
         withdrawal_response_all = self.cobinhood.get_all_withdrawals()
         withdrawal = withdrawal_response_all["result"].get("withdrawals", "")
         withdrawal_id = withdrawal[0].get("withdrawal_id") if withdrawal else ""
@@ -220,6 +333,10 @@ class TestCobinhoodPrivate(unittest.TestCase):
         if not withdrawal_id:
             self.assertEqual(withdrawal_response_all["result"].get("withdrawals"),
                              withdrawal_response["result"].get("withdrawals"))
+=======
+        #response = self.cobinhood.get_withdrawal()
+        #api_call_response(self, response)
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
 
     def test_get_all_withdrawals(self):
         """!
@@ -232,6 +349,7 @@ class TestCobinhoodPrivate(unittest.TestCase):
         """!
         Test the get deposit function.
         """
+<<<<<<< HEAD
         deposit_response_all = self.cobinhood.get_all_deposits()
         deposit = deposit_response_all["result"].get("deposits", "")
         deposit_id = deposit[0].get("deposit_id") if deposit else ""
@@ -240,6 +358,10 @@ class TestCobinhoodPrivate(unittest.TestCase):
         if not deposit_id:
             self.assertEqual(deposit_response_all["result"].get("deposits"),
                              deposit_response["result"].get("deposits"))
+=======
+        #response = self.cobinhood.get_deposit()
+        #api_call_response(self, response)
+>>>>>>> 651628c74b34173df01670a49b8e09fc6757c189
 
     def test_get_all_deposits(self):
         """!
