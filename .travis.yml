@@ -4,12 +4,12 @@ python:
   - '2.7'
 
 install:
-  - pip install codecov
+  - pip install codecov py.test
   - pip install -r requirements.txt
 
 script:
   - python -m unittest cobinhood.tests.test_cobinhood
-  - py.test cobinhood/tests/*.py --cov=codecov
+  - py.test cobinhood/*.py --cov cobinhood --cov-report xml --ignore tests tests
 
 after_success:
   - codecov
