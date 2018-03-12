@@ -9,6 +9,7 @@ install:
 
 script:
   - python -m unittest cobinhood.tests.test_cobinhood
+  - py.test cobinhood/tests/*.py --cov=codecov
 
 after_success:
   - codecov
