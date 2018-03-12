@@ -8,8 +8,8 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python -m unittest cobinhood.tests.test_cobinhood
-  - pytest --cov=cobinhood
+  - python -m unittest discover
+  - py.test --cov=cobinhood
   - nosetests --with-coverage
 
 after_success:
