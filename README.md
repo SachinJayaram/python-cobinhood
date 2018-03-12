@@ -1,6 +1,9 @@
 # python-cobinhood
 [![Build Status](https://travis-ci.org/SachinJayaram/python-cobinhood.svg?branch=master)](https://travis-ci.org/SachinJayaram/python-cobinhood)
 
+.. image:: https://codecov.io/gh/SachinJayaram/python-cobinhood
+  :target: https://codecov.io/gh/SachinJayaram/python-cobinhood
+
 Python wrapper for Cobinhood. Use at your own risk. I'm not responsible for any issues.
 
 ## How to RUN Cobinhood API
