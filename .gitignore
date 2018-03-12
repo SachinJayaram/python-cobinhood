@@ -1,3 +1,4 @@
 # Ignore python compiled files
 *.pyc
-
+.coverage
+.pytest_cache/

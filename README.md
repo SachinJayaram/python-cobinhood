@@ -1,5 +1,6 @@
 # python-cobinhood
 [![Build Status](https://travis-ci.org/SachinJayaram/python-cobinhood.svg?branch=master)](https://travis-ci.org/SachinJayaram/python-cobinhood)
+[![codecov.io](https://codecov.io/gh/SachinJayaram/python-cobinhood/coverage.svg?branch=master)](https://codecov.io/gh/SachinJayaram/python-cobinhood)
 
 Python wrapper for Cobinhood. Use at your own risk. I'm not responsible for any issues.
 
@@ -19,6 +20,13 @@ if __name__ == '__main__':
 To run the integration tests execute the following command:
 ```
 "python -m unittest discover"
+```
+To run all the tests you will need api_token.json file in the tests directory
+with valid api_key value pair structured as follows:
+```
+{
+    "api_key": "abcde123454321"
+}
 ```
 
 ## Error Codes:

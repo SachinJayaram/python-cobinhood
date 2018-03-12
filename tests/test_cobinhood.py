@@ -4,11 +4,12 @@
 """
 
 from __future__ import print_function
-from cobinhood import Cobinhood
 import json
+import mock
 import unittest
+import cobinhood
 
-API_TOKEN_FILE = "./cobinhood/tests/api_token.json"
+API_TOKEN_FILE = "./tests/api_token.json"
 
 try:
     open(API_TOKEN_FILE).close()
@@ -35,7 +36,7 @@ class TestCobinhoodPublic(unittest.TestCase):
         """!
         Initial setUp function for testcases.
         """
-        self.cobinhood = Cobinhood()
+        self.cobinhood = cobinhood.Cobinhood()
 
     def test_get_system_time(self):
         """!
@@ -100,6 +101,44 @@ class TestCobinhoodPublic(unittest.TestCase):
         response = self.cobinhood.get_candles("COB-USDT")
         api_call_response(self, response)
 
+    # pylint: disable=I0011, W0212
+    def test_query_api(self):
+        """!
+        Test the query api function.
+        Empty fn_dict exception and incorrect url exception.
+        """
+        fn_dict = {}
+        with self.assertRaises(cobinhood.ExceptionCobinhood) as cob_exception:
+            self.cobinhood._query_api(fn_dict)
+            cob_exception.assert_called_with("incorrect method call")
+        fn_dict = {cobinhood.API_V1: "system/times"}
+        with self.assertRaises(cobinhood.ExceptionCobinhood) as cob_exception:
+            self.cobinhood._query_api(fn_dict)
+            cob_exception.assert_called_with("Error: request_url is incorrect")
+
+    @mock.patch("time.time", return_value=12345)
+    def test_request_api_call(self, mock_time):
+        """!
+        Test the request api call function.
+        """
+        self.assertEqual(mock_time.return_value, 12345)
+        header = {"Authorization": "", "nonce": str(mock_time.return_value*1000)}
+
+        with mock.patch("requests.get") as request_get:
+            cobinhood.request_api_call("v1/system/time", "", "get")
+            request_get.assert_called_with("v1/system/time", headers=header)
+        with mock.patch("requests.put") as request_put:
+            cobinhood.request_api_call("v1/system/time", "", "put")
+            request_put.assert_called_with("v1/system/time", headers=header)
+        with mock.patch("requests.post") as request_post:
+            cobinhood.request_api_call("v1/system/time", "", "post")
+            request_post.assert_called_with("v1/system/time", headers=header)
+        with mock.patch("requests.delete") as request_delete:
+            cobinhood.request_api_call("v1/system/time", "", "delete")
+            request_delete.assert_called_with("v1/system/time", headers=header)
+        with self.assertRaises(cobinhood.ExceptionCobinhood) as cob_exception:
+            cobinhood.request_api_call("v1/system/time", "", "abcd")
+            cob_exception.assert_called_with("Error: invalid request type")
 
 @unittest.skipUnless(AUTH, "Missing api_token.json file")
 class TestCobinhoodPrivate(unittest.TestCase):
@@ -122,7 +161,7 @@ class TestCobinhoodPrivate(unittest.TestCase):
         with open(self.api_token_file) as fin:
             content = json.load(fin)
             self.api_key = content.get("api_key", "")
-        self.cobinhood = Cobinhood(self.api_key)
+        self.cobinhood = cobinhood.Cobinhood(self.api_key)
 
     def test_get_order(self):
         """!
@@ -247,6 +286,25 @@ class TestCobinhoodPrivate(unittest.TestCase):
         """
         response = self.cobinhood.get_all_deposits()
         api_call_response(self, response)
+
+
+class TestExceptionCobinhood(unittest.TestCase):
+    """!
+    Unittest test for ExceptionCobinhood class.
+    """
+
+    def setUp(self):
+        """!
+        Initial setUp function for testcases.
+        """
+        self.cause = "Error: invalid request type"
+        self.exception = cobinhood.ExceptionCobinhood(self.cause)
+
+    def test_str(self):
+        """!
+        Initial setUp function for testcases.
+        """
+        self.assertEqual(self.exception.__str__(), self.cause)
 
 if __name__ == "__main__":
     unittest.main()

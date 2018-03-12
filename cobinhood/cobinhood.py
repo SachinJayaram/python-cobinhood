@@ -14,7 +14,7 @@ import time
 try:
     from urllib import urlencode
 except ImportError:
-    from urllib import urlencode
+    from urllib.parse import urlencode
 
 API_V1 = "v1"
 
@@ -47,6 +47,8 @@ def request_api_call(request_url, auth_token, request_type):
         return requests.delete(
             request_url,
             headers=header).json()
+    else:
+        raise ExceptionCobinhood("Error: invalid request type")
 
 
 class Cobinhood(object):
