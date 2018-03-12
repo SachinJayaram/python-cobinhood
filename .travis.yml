@@ -9,8 +9,8 @@ install:
 
 script:
   - python -m unittest discover
-  - py.test --cov=cobinhood
+  - pytest --cov=cobinhood
   - nosetests --with-coverage
 
 after_success:
-  - codecov
+- codecov
